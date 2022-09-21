@@ -33,11 +33,12 @@ class _loginPageNumberState extends State<loginPageNumber> {
           TextButton(
               onPressed: () {
                 print(myController.text);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            OTP(phoneNumber: myController.text)));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OTP(phoneNumber: myController.text),
+                  ),
+                );
               },
               child: Text("Next"))
         ],
