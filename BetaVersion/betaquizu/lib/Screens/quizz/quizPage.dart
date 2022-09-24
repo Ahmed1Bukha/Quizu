@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Networking.dart';
-import 'quizBrain.dart';
+import '../../classes/Networking.dart';
+import '../../classes/quizBrain.dart';
 import 'endPage.dart';
 import 'dart:async';
 import 'finishPage.dart';
@@ -19,8 +19,6 @@ class quizPage extends StatefulWidget {
 
   Timer? countdownTimer;
 }
-
-final Networking networking = new Networking();
 
 class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
   late AnimationController controller;
@@ -45,7 +43,7 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => FinishPage(widget.infoUser,score),
+            builder: (context) => FinishPage(widget.infoUser, score),
           ),
         );
       });
@@ -153,16 +151,19 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                   builder: (context, child) => Text(countText))
             ],
           ),
-          TextButton(
-              onPressed: () {
-                if (numberOfSkippes == 1) {
-                  setState(() {
-                    numberOfSkippes--;
-                    questionNumber++;
-                  });
-                }
-              },
-              child: Text("You have  " + numberOfSkippes.toString()))
+          Visibility(
+            visible: numberOfSkippes == 1,
+            child: TextButton(
+                onPressed: () {
+                  if (numberOfSkippes == 1) {
+                    setState(() {
+                      numberOfSkippes--;
+                      questionNumber++;
+                    });
+                  }
+                },
+                child: Text("You have  " + numberOfSkippes.toString())),
+          )
         ],
       ),
     );

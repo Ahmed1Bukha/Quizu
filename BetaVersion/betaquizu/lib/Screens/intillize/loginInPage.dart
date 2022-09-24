@@ -1,4 +1,4 @@
-import 'package:betaquizu/OTP_Page.dart';
+import 'package:betaquizu/Screens/intillize/OTP_Page.dart';
 import 'package:flutter/material.dart';
 
 class loginPageNumber extends StatefulWidget {

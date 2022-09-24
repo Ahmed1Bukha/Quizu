@@ -4,15 +4,14 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'CreateNewNamePage.dart';
-import 'Networking.dart';
-import 'welcomePage.dart';
+import '../../classes/Networking.dart';
+import '../AfterPages/welcomePage.dart';
 
 class OTP extends StatelessWidget {
   OTP({required this.phoneNumber});
 
   final String phoneNumber;
   final myController = TextEditingController();
-  final Networking networkController = Networking();
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +31,11 @@ class OTP extends StatelessWidget {
           TextButton(
               onPressed: () async {
                 print(myController.text);
-                dynamic returnedAnswer = await networkController.getOTP(
-                    myController.text, phoneNumber);
+                dynamic returnedAnswer =
+                    await Networking.getOTP(myController.text, phoneNumber);
                 print(returnedAnswer["success"] == "true");
 
-                if (returnedAnswer["msg"] == "user created!") {
+                if (returnedAnswer["user_status"] == "new") {
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
@@ -51,7 +50,7 @@ class OTP extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WelcomePage(returnedAnswer),
+                      builder: (context) => WelcomePage(),
                     ),
                   );
                 }

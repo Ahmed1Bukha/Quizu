@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Networking.dart';
-import 'welcomePage.dart';
+import '../../classes/Networking.dart';
+import '../AfterPages/welcomePage.dart';
 
 class CreateNamePage extends StatefulWidget {
   CreateNamePage(@required this.token);
@@ -21,7 +21,7 @@ class _CreateNamePageState extends State<CreateNamePage> {
   }
 
   final myController = TextEditingController();
-  final Networking networkController = Networking();
+
   Widget build(BuildContext context) {
     String token = widget.token;
     return Scaffold(
@@ -43,13 +43,13 @@ class _CreateNamePageState extends State<CreateNamePage> {
           ),
           TextButton(
               onPressed: () async {
-                dynamic responseBack = await networkController.newUserName(
+                dynamic responseBack = await Networking.newUserName(
                     myController.text, widget.token);
                 responseBack["token"] = widget.token;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WelcomePage(responseBack),
+                    builder: (context) => WelcomePage(),
                   ),
                 );
               },

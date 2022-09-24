@@ -1,30 +1,19 @@
+import 'package:betaquizu/classes/Authrization.dart';
 import 'package:flutter/material.dart';
-import 'loginInPage.dart';
-import 'OTP_Page.dart';
+import 'Screens/intillize/loginInPage.dart';
+import 'Screens/intillize/OTP_Page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'Networking.dart';
-import 'welcomePage.dart';
+import 'classes/Networking.dart';
+import 'Screens/AfterPages/welcomePage.dart';
 
-Networking networking = new Networking();
-
-void main() async {
-  String token = 'fgf';
-  dynamic answer = await networking.verifyTokken(token);
-  print(answer);
-  if (answer["message"] == "Unauthorized!") {
-    print("1");
-    runApp(MyApp(loginPageNumber()));
-  } else {
-    print(3);
-    dynamic infoUser = await networking.userInfoGetter(token);
-    runApp(MyApp(WelcomePage(infoUser)));
-  }
+void main() {
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp(Widget this.chosen);
-  final Widget chosen;
+  const MyApp();
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -32,8 +21,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: widget.chosen,
-    );
+    return MaterialApp(home: Authorization());
   }
 }
