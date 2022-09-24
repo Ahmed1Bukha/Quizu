@@ -20,9 +20,9 @@ class _CreateNamePageState extends State<CreateNamePage> {
     print(widget.token);
   }
 
+  final myController = TextEditingController();
+  final Networking networkController = Networking();
   Widget build(BuildContext context) {
-    final myController = TextEditingController();
-    final Networking networkController = Networking();
     String token = widget.token;
     return Scaffold(
       appBar: AppBar(
@@ -45,6 +45,7 @@ class _CreateNamePageState extends State<CreateNamePage> {
               onPressed: () async {
                 dynamic responseBack = await networkController.newUserName(
                     myController.text, widget.token);
+                responseBack["token"] = widget.token;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

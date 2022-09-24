@@ -34,6 +34,7 @@ class OTP extends StatelessWidget {
                 print(myController.text);
                 dynamic returnedAnswer = await networkController.getOTP(
                     myController.text, phoneNumber);
+                print(returnedAnswer["success"] == "true");
 
                 if (returnedAnswer["msg"] == "user created!") {
                   // ignore: use_build_context_synchronously
@@ -44,7 +45,9 @@ class OTP extends StatelessWidget {
                           CreateNamePage(returnedAnswer["token"]),
                     ),
                   );
-                } else if (returnedAnswer["msg"] == "Token returning!") {
+                } else if (returnedAnswer["message"].toString() ==
+                    "Token returning!") {
+                  print("secuss");
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

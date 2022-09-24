@@ -5,9 +5,6 @@ import 'package:http/http.dart' as http;
 
 const mainUrl = 'quizu.okoul.com';
 
-const tokenForMe =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjM3NjQzMDF9.E69JWVLjktAXovfR1a7x-gdQdIhaxZ_7RQutWq5BeaY";
-
 class Networking {
   Future<dynamic> getOTP(String otpNumber, String mobileNumber) async {
     var url = Uri.https(mainUrl, "/Login");
@@ -18,11 +15,13 @@ class Networking {
     return decodedResponse;
   }
 
-  Future<void> verifyTokken(String tokken) async {
-    var url = Uri.https(mainUrl, "/Tokken");
-    var response = await http.post(url, headers: {"AUTHORIZATION": tokken});
+  Future<dynamic> verifyTokken(String tokken) async {
+    var url = Uri.https(mainUrl, "/Token");
+    var response = await http.get(url, headers: {"AUTHORIZATION": tokken});
     var decodedResponse = jsonDecode(response.body);
+    print(1);
     print(decodedResponse);
+    return decodedResponse;
   }
 
   Future<dynamic> newUserName(String name, String token) async {
@@ -41,5 +40,22 @@ class Networking {
 
     //print(decodedResponse);
     return decodedResponse;
+  }
+
+  Future<dynamic> userInfoGetter(String token) async {
+    var url = Uri.https(mainUrl, "/UserInfo");
+    var response = await http.get(url, headers: {"AUTHORIZATION": token});
+    var decodedResponse = jsonDecode(response.body);
+    print(2);
+    print(decodedResponse);
+    return decodedResponse;
+  }
+
+  Future<dynamic> submitUserScore(String token, int score) async {
+    var url = Uri.https(mainUrl, "/Score");
+    var response = await http.post(url,
+        headers: {"AUTHORIZATION": token}, body: {"score": score.toString()});
+    var decodedResponse = jsonDecode(response.body);
+    print(decodedResponse);
   }
 }

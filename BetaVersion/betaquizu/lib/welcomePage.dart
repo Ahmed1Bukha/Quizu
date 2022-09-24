@@ -28,7 +28,7 @@ class WelcomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        quizPage(infoUser["token"], questions),
+                        quizPage(infoUser, questions),
                   ));
             },
             child: Text("Start quiz!"),

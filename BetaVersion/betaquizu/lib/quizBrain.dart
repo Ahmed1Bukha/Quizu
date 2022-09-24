@@ -1,5 +1,5 @@
-class quizBrain {
-  quizBrain(this.listOfQuestions);
+class QuizBrain {
+  QuizBrain(this.listOfQuestions);
 
   final listOfQuestions;
 
@@ -18,12 +18,11 @@ class quizBrain {
     return options;
   }
 
-  bool verifyAnswer(String key, int indexNumber) {
-    if (key == listOfQuestions[indexNumber]["answer"]) {
+  bool verifyAnswer(String symbol, int indexNumber) {
+    if (symbol == listOfQuestions[indexNumber]["correct"]) {
       return true;
     } else {
       return false;
     }
-    ; 
   }
 }
