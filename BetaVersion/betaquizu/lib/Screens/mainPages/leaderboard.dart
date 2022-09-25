@@ -1,4 +1,4 @@
-import 'package:betaquizu/Screens/AfterPages/welcomePage.dart';
+import 'package:betaquizu/Screens/mainPages/welcomePage.dart';
 import 'package:betaquizu/classes/Networking.dart';
 import 'package:flutter/material.dart';
 
@@ -30,30 +30,35 @@ class _LeaderBoardState extends State<LeaderBoard> {
     }
     print(names);
     print(scores);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   int getIndex() {
     return indexPage;
   }
 
+  bool isLoading = true;
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Center(child: Text("LeaderBoad")),
         ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
+        body: isLoading
+            ? CircularProgressIndicator()
+            : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: names.map((e) => Text(e)).toList()),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: scores.map((e) => Text(e)).toList()),
-          ],
-        ),
-        bottomNavigationBar:
-            bottomBarReturn(indexPage, context, WelcomePage()));
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: names.map((e) => Text(e)).toList()),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: scores.map((e) => Text(e)).toList()),
+                ],
+              ),
+        bottomNavigationBar: bottomBarReturn(indexPage, context));
   }
 }

@@ -1,4 +1,4 @@
-import 'package:betaquizu/Screens/AfterPages/welcomePage.dart';
+import 'package:betaquizu/Screens/mainPages/welcomePage.dart';
 import 'package:betaquizu/Screens/quizz/quizPage.dart';
 import 'package:flutter/material.dart';
 import '../../classes/Networking.dart';

@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:betaquizu/Screens/AfterPages/leaderboard.dart';
+import 'package:betaquizu/Screens/mainPages/leaderboard.dart';
 import 'package:flutter/material.dart';
 import '../../classes/Networking.dart';
 import '../../classes/widgetBottom.dart';
@@ -65,7 +65,6 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                 ],
               ),
-        bottomNavigationBar:
-            bottomBarReturn(indexPage, context, LeaderBoard()));
+        bottomNavigationBar: bottomBarReturn(indexPage, context));
   }
 }

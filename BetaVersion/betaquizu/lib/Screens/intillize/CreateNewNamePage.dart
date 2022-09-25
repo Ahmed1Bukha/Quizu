@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../classes/Networking.dart';
-import '../AfterPages/welcomePage.dart';
+import '../mainPages/welcomePage.dart';
 
 class CreateNamePage extends StatefulWidget {
   CreateNamePage(@required this.token);

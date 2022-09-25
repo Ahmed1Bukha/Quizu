@@ -5,7 +5,7 @@ import 'Screens/intillize/OTP_Page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'classes/Networking.dart';
-import 'Screens/AfterPages/welcomePage.dart';
+import 'Screens/mainPages/welcomePage.dart';
 
 void main() {
   runApp(MyApp());

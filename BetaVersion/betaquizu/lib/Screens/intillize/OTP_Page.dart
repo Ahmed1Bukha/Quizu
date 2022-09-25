@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'CreateNewNamePage.dart';
 import '../../classes/Networking.dart';
-import '../AfterPages/welcomePage.dart';
+import '../mainPages/welcomePage.dart';
 
 class OTP extends StatelessWidget {
   OTP({required this.phoneNumber});

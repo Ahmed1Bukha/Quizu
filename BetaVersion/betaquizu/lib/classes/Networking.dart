@@ -24,6 +24,7 @@ class Networking {
 
   static Future<dynamic> verifyTokken() async {
     final prefs = await SharedPreferences.getInstance();
+
     final String? token = prefs.getString('token');
     var url = Uri.https(mainUrl, "/Token");
     var response = await http.get(url, headers: {"AUTHORIZATION": token!});
@@ -59,15 +60,16 @@ class Networking {
   }
 
   static Future<dynamic> userInfoGetter({String? token}) async {
+    final prefs = await SharedPreferences.getInstance();
     if (token == null) {
-      final prefs = await SharedPreferences.getInstance();
       token = prefs.getString('token');
     }
     var url = Uri.https(mainUrl, "/UserInfo");
     var response = await http.get(url, headers: {"AUTHORIZATION": token!});
     var decodedResponse = jsonDecode(response.body);
     decodedResponse['token'] = token;
-    print(2);
+
+    print(6);
     print(decodedResponse);
     return decodedResponse;
   }
@@ -78,6 +80,15 @@ class Networking {
     var url = Uri.https(mainUrl, "/Score");
     var response = await http.post(url,
         headers: {"AUTHORIZATION": token}, body: {"score": score.toString()});
+    final List<String>? scores = prefs.getStringList('scores');
+    if (scores == null) {
+      List<int> scores = [0];
+    }
+    scores?.add(score.toString());
+
+    await prefs.setStringList('scores', scores!);
+    var scoresAter = await prefs.getStringList('scores');
+    print(scoresAter);
     var decodedResponse = jsonDecode(response.body);
     print(decodedResponse);
   }
@@ -97,5 +108,12 @@ class Networking {
     var decodedResponse = jsonDecode(response.body);
     print(decodedResponse);
     return decodedResponse;
+  }
+
+  static Future<dynamic> getLocalScors() async {
+    final prefs = await SharedPreferences.getInstance();
+    var scores = await prefs.getStringList('scores');
+    print(scores);
+    return await prefs.getStringList('scores');
   }
 }

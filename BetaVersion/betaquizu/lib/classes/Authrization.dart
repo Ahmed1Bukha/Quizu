@@ -1,5 +1,5 @@
 import 'package:betaquizu/Screens/intillize/loginInPage.dart';
-import 'package:betaquizu/Screens/AfterPages/welcomePage.dart';
+import 'package:betaquizu/Screens/mainPages/welcomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
