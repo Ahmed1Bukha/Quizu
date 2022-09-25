@@ -1,3 +1,4 @@
+import 'package:betaquizu/Screens/intillize/loginInPage.dart';
 import 'package:betaquizu/classes/Networking.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -14,7 +15,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   dynamic infoUser;
+
   List<String> scores = [''];
+  List<String> dates = [''];
   dynamic infoUserGetter() async {
     infoUser = await Networking.userInfoGetter();
     await scoreGetter();
@@ -25,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   dynamic scoreGetter() async {
     scores = await Networking.getLocalScors();
+    dates = await Networking.getLocalDate();
   }
 
   @override
@@ -47,6 +51,16 @@ class _ProfilePageState extends State<ProfilePage> {
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => loginPageNumber(),
+                        ),
+                      );
+                    },
+                    child: Text("SignOut")),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -57,8 +71,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: scores.map((e) => Text(e + " ")).toList())
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: scores.map((e) => Text(e + " ")).toList()),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: dates.map((e) => Text(e + " ")).toList()),
+                  ],
+                ),
               ],
             ),
       bottomNavigationBar: bottomBarReturn(index, context),

@@ -24,8 +24,13 @@ class Networking {
 
   static Future<dynamic> verifyTokken() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('scores', []);
+    await prefs.setStringList('date', []);
 
-    final String? token = prefs.getString('token');
+    var token = await prefs.getString('token');
+    if (token == null) {
+      token = "asd";
+    }
     var url = Uri.https(mainUrl, "/Token");
     var response = await http.get(url, headers: {"AUTHORIZATION": token!});
     var decodedResponse = jsonDecode(response.body);
@@ -80,15 +85,26 @@ class Networking {
     var url = Uri.https(mainUrl, "/Score");
     var response = await http.post(url,
         headers: {"AUTHORIZATION": token}, body: {"score": score.toString()});
-    final List<String>? scores = prefs.getStringList('scores');
+    List<String>? scores = await prefs.getStringList('scores');
+    List<String>? date = await prefs.getStringList('date');
     if (scores == null) {
-      List<int> scores = [0];
+      scores = ["Scores: "];
     }
-    scores?.add(score.toString());
+
+    if (date == null) {
+      date = ["Date: "];
+    }
+    scores.add(score.toString());
+    date.add(DateTime.now().toString());
 
     await prefs.setStringList('scores', scores!);
-    var scoresAter = await prefs.getStringList('scores');
+    await prefs.setStringList('date', date!);
+
+    var scoresAter = prefs.getStringList('scores');
+    var dateAfter = prefs.getStringList('date');
+
     print(scoresAter);
+    print(dateAfter);
     var decodedResponse = jsonDecode(response.body);
     print(decodedResponse);
   }
@@ -113,7 +129,27 @@ class Networking {
   static Future<dynamic> getLocalScors() async {
     final prefs = await SharedPreferences.getInstance();
     var scores = await prefs.getStringList('scores');
+    if (scores == null) {
+      return ["Scores: "];
+    }
     print(scores);
-    return await prefs.getStringList('scores');
+    return await scores;
+  }
+
+  static Future<dynamic> getLocalDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    var date = await prefs.getStringList('date');
+    if (date == null) {
+      return [" "];
+    }
+    print(date);
+    return await date;
+  }
+
+  static Future<dynamic> removeInfos() async {
+    final prefs = await SharedPreferences.getInstance();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    print("Done cleaing data");
   }
 }
