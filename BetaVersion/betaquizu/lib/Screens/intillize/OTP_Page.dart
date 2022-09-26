@@ -15,48 +15,56 @@ class OTP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("OTP page")),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child:
-                Text('Enter the OTP you recieved for the number${phoneNumber}'),
-          ),
-          TextField(
-            controller: myController,
-            keyboardType: TextInputType.number,
-          ),
-          TextButton(
-              onPressed: () async {
-                print(myController.text);
-                dynamic returnedAnswer =
-                    await Networking.getOTP(myController.text, phoneNumber);
-                print(returnedAnswer["success"] == "true");
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                  'Enter the OTP you recieved for the number${phoneNumber}'),
+            ),
+            TextField(
+              controller: myController,
+              keyboardType: TextInputType.number,
+            ),
+            TextButton(
+                onPressed: () async {
+                  print(myController.text);
+                  dynamic returnedAnswer =
+                      await Networking.getOTP(myController.text, phoneNumber);
+                  print(returnedAnswer["success"] == "true");
 
-                if (returnedAnswer["user_status"] == "new") {
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          CreateNamePage(returnedAnswer["token"]),
-                    ),
-                  );
-                } else if (returnedAnswer["message"].toString() ==
-                    "Token returning!") {
-                  print("secuss");
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WelcomePage(),
-                    ),
-                  );
-                }
-              },
-              child: Text("Check"))
-        ],
+                  if (returnedAnswer["user_status"] == "new") {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CreateNamePage(returnedAnswer["token"]),
+                      ),
+                    );
+                  } else if (returnedAnswer["message"].toString() ==
+                      "Token returning!") {
+                    print("secuss");
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomePage(),
+                      ),
+                    );
+                  }
+                },
+                child: Text("Check"))
+          ],
+        ),
       ),
     );
   }

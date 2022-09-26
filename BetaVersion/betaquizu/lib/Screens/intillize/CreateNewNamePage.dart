@@ -24,37 +24,46 @@ class _CreateNamePageState extends State<CreateNamePage> {
 
   Widget build(BuildContext context) {
     String token = widget.token;
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("Creating name page")),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            child: TextFormField(
-              controller: myController,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.face),
-                border: OutlineInputBorder(),
-                labelText: 'Enter username',
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Center(child: Text("Creating name page")),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              child: TextFormField(
+                controller: myController,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.face),
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter username',
+                ),
               ),
             ),
-          ),
-          TextButton(
-              onPressed: () async {
-                dynamic responseBack = await Networking.newUserName(
-                    myController.text, widget.token);
-                responseBack["token"] = widget.token;
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WelcomePage(),
-                  ),
-                );
-              },
-              child: Text("Submit"))
-        ],
+            TextButton(
+                onPressed: () async {
+                  dynamic responseBack = await Networking.newUserName(
+                      myController.text, widget.token);
+                  responseBack["token"] = widget.token;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WelcomePage(),
+                    ),
+                  );
+                },
+                child: Text("Submit"))
+          ],
+        ),
       ),
     );
   }

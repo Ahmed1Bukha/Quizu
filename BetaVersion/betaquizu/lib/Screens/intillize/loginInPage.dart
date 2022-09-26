@@ -1,6 +1,9 @@
+import 'package:betaquizu/CustomWidget/animation.dart';
 import 'package:betaquizu/Screens/intillize/OTP_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../CustomWidget/button.dart';
 import '../../classes/Networking.dart';
 
 class loginPageNumber extends StatefulWidget {
@@ -29,39 +32,49 @@ class _loginPageNumberState extends State<loginPageNumber> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("Logining in page")),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
       ),
-      body: isloading
-          ? CircularProgressIndicator()
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  child: TextFormField(
-                      controller: myController,
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.phone),
-                          border: OutlineInputBorder(),
-                          labelText: 'Enther phone number:',
-                          hintText: '5xxxxxxxxx'),
-                      keyboardType: TextInputType.number),
-                ),
-                TextButton(
-                    onPressed: () {
-                      print(myController.text);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              OTP(phoneNumber: myController.text),
-                        ),
-                      );
-                    },
-                    child: Text("Next"))
-              ],
-            ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: isloading
+            ? LoadingAnimation()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    child: TextFormField(
+                        controller: myController,
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.phone),
+                            border: OutlineInputBorder(),
+                            labelText: 'Enther phone number:',
+                            hintText: '5xxxxxxxxx'),
+                        keyboardType: TextInputType.number),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Button(
+                      text: "Next",
+                      function: () {
+                        print(myController.text);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                OTP(phoneNumber: myController.text),
+                          ),
+                        );
+                      },
+                      color: Colors.white)
+                ],
+              ),
+      ),
     );
   }
 }

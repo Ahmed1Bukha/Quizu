@@ -21,6 +21,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Authorization(), theme: ThemeData.dark());
+    return MaterialApp(
+      home: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage("Images/Untitled-1.png"),
+            ),
+          ),
+          child: Authorization()),
+      theme: ThemeData.dark().copyWith(backgroundColor: Colors.transparent),
+    );
   }
 }

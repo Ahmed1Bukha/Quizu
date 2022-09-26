@@ -1,3 +1,4 @@
+import 'package:betaquizu/CustomWidget/animation.dart';
 import 'package:betaquizu/Screens/intillize/loginInPage.dart';
 import 'package:betaquizu/Screens/mainPages/welcomePage.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ class _AuthorizationState extends State<Authorization> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: FutureBuilder(
           future: Networking.verifyTokken(),
           builder: (context, snapshot) {
@@ -27,9 +29,7 @@ class _AuthorizationState extends State<Authorization> {
                 return WelcomePage();
               }
             }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadingAnimation();
           }),
     );
   }

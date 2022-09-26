@@ -1,3 +1,5 @@
+import 'package:betaquizu/CustomWidget/animation.dart';
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:betaquizu/Screens/mainPages/welcomePage.dart';
 import 'package:betaquizu/classes/Networking.dart';
 import 'package:flutter/material.dart';
@@ -35,30 +37,121 @@ class _LeaderBoardState extends State<LeaderBoard> {
     });
   }
 
+  List<Widget> returnNamesScores(List<String> names, List<String> scores) {
+    List<Widget> row = [];
+    for (int i = 0; i < 10; i++) {
+      row.add(Container(
+        margin: EdgeInsets.symmetric(vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(),
+            Expanded(
+              flex: 8,
+              child: Text(
+                names[i],
+                style: textStyle(20, Colors.white),
+              ),
+            ),
+            SizedBox(
+              width: 20,
+              height: 10,
+            ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                scores[i],
+                style: textStyle(20, Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ));
+    }
+    return row;
+  }
+
   int getIndex() {
     return indexPage;
   }
 
   bool isLoading = true;
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Center(child: Text("LeaderBoad")),
+          title: Center(
+            child: Text(
+              "QuizU ⌚️",
+              style: textStyle(30, Colors.white),
+            ),
+          ),
         ),
         body: isLoading
-            ? CircularProgressIndicator()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: names.map((e) => Text(e)).toList()),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: scores.map((e) => Text(e)).toList()),
-                ],
+            ? LoadingAnimation()
+            : Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "LeaderBoard",
+                      style: textStyle(
+                        60,
+                        Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 60,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: Text(
+                              "Names:",
+                              style: textStyle(30, Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                            height: 10,
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Scores:",
+                              style: textStyle(30, Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ...returnNamesScores(names, scores)
+                  ],
+                ),
               ),
-        bottomNavigationBar: bottomBarReturn(indexPage, context));
+        bottomNavigationBar: bottomBarReturn(indexPage, context),
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, file_names
 
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -95,7 +96,7 @@ class Networking {
       date = ["Date: "];
     }
     scores.add(score.toString());
-    date.add(DateTime.now().toString());
+    date.add(DateFormat.yMd().add_jm().format(DateTime.now()).toString());
 
     await prefs.setStringList('scores', scores!);
     await prefs.setStringList('date', date!);

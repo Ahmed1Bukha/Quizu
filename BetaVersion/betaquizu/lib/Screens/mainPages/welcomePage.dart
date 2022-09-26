@@ -2,6 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:betaquizu/CustomWidget/animation.dart';
+import 'package:betaquizu/CustomWidget/button.dart';
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:betaquizu/Screens/mainPages/leaderboard.dart';
 import 'package:flutter/material.dart';
 import '../../classes/Networking.dart';
@@ -39,32 +42,75 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Center(child: Text("welcome page!"))),
-        body: isLoading
-            ? CircularProgressIndicator()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Center(
-                        child: Text(
-                            "Welcome " + (infoUser["name"] ?? "Guest lmfao"))),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      dynamic questions = await Networking.quistionGetter();
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => quizPage(infoUser, questions),
-                          ));
-                    },
-                    child: Text("Start quiz!"),
-                  ),
-                ],
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
+      ),
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Center(
+              child: Text(
+                "QuizU ⌚️",
+                style: textStyle(30, Colors.white),
               ),
-        bottomNavigationBar: bottomBarReturn(indexPage, context));
+            ),
+          ),
+          body: isLoading
+              ? LoadingAnimation()
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Center(
+                          child: Text(
+                            "Welcome " + (infoUser["name"] ?? "Guest lmfao"),
+                            style: textStyle(50, Colors.white),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Ready to test your knowledge and challenge others? ",
+                        style: textStyle(20, Colors.white),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Button(
+                          text: "Start quiz!",
+                          function: () async {
+                            dynamic questions =
+                                await Networking.quistionGetter();
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      quizPage(infoUser, questions),
+                                ));
+                          },
+                          color: Colors.white),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Answer as much questions correctly within 2 minutes",
+                        style: textStyle(20, Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+          bottomNavigationBar: bottomBarReturn(indexPage, context)),
+    );
   }
 }
