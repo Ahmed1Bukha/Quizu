@@ -103,12 +103,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: EdgeInsets.all(30),
-                        child: Text(
-                          "Profile",
-                          style: textStyle(60, Colors.white),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(30),
+                            child: Text(
+                              "Profile",
+                              style: textStyle(60, Colors.white),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Icon(Icons.logout),
+                          )
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

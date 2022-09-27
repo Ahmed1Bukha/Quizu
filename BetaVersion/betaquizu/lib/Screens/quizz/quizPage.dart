@@ -237,17 +237,17 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                     buttonColor: Colors.red,
                     backGroundColor: Colors.orange,
                     text: "You have " + numberOfSkippes.toString() + " skip 🔥",
-                    function: isPressed
-                        ? () {}
-                        : () {
+                    function: !isPressed
+                        ? () {
                             if (numberOfSkippes == 1) {
                               setState(() {
+                                isPressed = true;
                                 numberOfSkippes--;
                                 questionNumber++;
-                                isPressed = true;
                               });
                             }
-                          },
+                          }
+                        : null,
                   )
                 ],
               ),

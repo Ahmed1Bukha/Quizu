@@ -16,7 +16,7 @@ class Button extends StatefulWidget {
     this.Textcolor = Colors.white,
   }) : super(key: key);
   final String text;
-  final Function() function;
+  final function;
   final double height;
   final double width;
   final Color buttonColor;
