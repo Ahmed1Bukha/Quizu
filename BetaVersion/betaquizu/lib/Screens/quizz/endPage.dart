@@ -1,7 +1,9 @@
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:betaquizu/Screens/mainPages/welcomePage.dart';
 import 'package:betaquizu/Screens/quizz/quizPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../CustomWidget/button.dart';
 import '../../classes/Networking.dart';
 
 class endPage extends StatelessWidget {
@@ -18,16 +20,54 @@ class endPage extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset("Images/undraw_cancel_re_pkdm.svg",
-                semanticsLabel: 'Acme Logo'),
-            Center(
-              child: TextButton(
-                onPressed: () async {
-                  final infoUser = await Networking.userInfoGetter();
-                  final questions = await Networking.quistionGetter();
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Transform.scale(
+                    scale: 2.5,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WelcomePage(),
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.close)),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                "You got a wrong answer!",
+                style: textStyle(40, Colors.white),
+              ),
+              SvgPicture.asset(
+                "Images/lmfao.svg",
+                semanticsLabel: 'Acme Logo',
+                height: 300,
+                width: 100,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Button(
+                text: "Retry quiz",
+                function: () {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -35,23 +75,23 @@ class endPage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text("Reset quiz"),
+                buttonColor: Colors.teal,
               ),
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () async {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WelcomePage(),
-                    ),
-                  );
-                },
-                child: Text("Return to main page."),
+              Center(
+                child: TextButton(
+                  onPressed: () async {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomePage(),
+                      ),
+                    );
+                  },
+                  child: Text("Return to main page."),
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
