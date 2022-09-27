@@ -37,6 +37,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   loading_animation_widget: ^1.2.0+3
   auto_size_text: ^3.0.0
+  flutter_svg: ^1.1.5
 
 
   # The following adds the Cupertino Icons font to your application.
