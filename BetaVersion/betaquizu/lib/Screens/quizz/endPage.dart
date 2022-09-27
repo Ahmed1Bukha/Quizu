@@ -77,19 +77,6 @@ class endPage extends StatelessWidget {
                 },
                 buttonColor: Colors.teal,
               ),
-              Center(
-                child: TextButton(
-                  onPressed: () async {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WelcomePage(),
-                      ),
-                    );
-                  },
-                  child: Text("Return to main page."),
-                ),
-              ),
             ],
           ),
         ),

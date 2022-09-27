@@ -7,6 +7,7 @@ import 'package:betaquizu/CustomWidget/button.dart';
 import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:betaquizu/Screens/mainPages/leaderboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../classes/Networking.dart';
 import '../../classes/widgetBottom.dart';
 import '../quizz/quizPage.dart';
@@ -84,6 +85,12 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                       SizedBox(
                         height: 20,
+                      ),
+                      SvgPicture.asset(
+                        "Images/main.svg",
+                        semanticsLabel: 'Acme Logo',
+                        height: 200,
+                        width: 100,
                       ),
                       Button(
                         text: "Start quiz!",
