@@ -89,6 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Center(
               child: Text(
             "QuizU ⌚️",
@@ -123,14 +124,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                           child: const Text('Cancel'),
                                         ),
                                         TextButton(
-                                          onPressed: () =>
-                                              Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  loginPageNumber(),
-                                            ),
-                                          ),
+                                          onPressed: () {
+                                            Networking.removeInfos();
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    loginPageNumber(),
+                                              ),
+                                            );
+                                          },
                                           child: const Text('Yes'),
                                         ),
                                       ],
@@ -163,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Name: " + infoUser['name'] + " ",
+                            "Name: " + infoUser['name'] ?? "Guest lmfao" + " ",
                             style: textStyle(30, Colors.white),
                           )
                         ],

@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'CreateNewNamePage.dart';
 import '../../classes/Networking.dart';
 import '../mainPages/welcomePage.dart';
@@ -29,40 +31,45 @@ class OTP extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                  'Enter the OTP you recieved for the number${phoneNumber}'),
+                textAlign: TextAlign.center,
+                'Enter the OTP you recieved for the number ${phoneNumber}',
+                style: textStyle(20, Colors.white),
+              ),
             ),
-            TextField(
-              controller: myController,
-              keyboardType: TextInputType.number,
+            SizedBox(
+              height: 30,
             ),
-            TextButton(
-                onPressed: () async {
-                  print(myController.text);
-                  dynamic returnedAnswer =
-                      await Networking.getOTP(myController.text, phoneNumber);
-                  print(returnedAnswer["success"] == "true");
+            OtpTextField(
+              showFieldAsBox: true,
+              onSubmit: (value) async {
+                dynamic returnedAnswer =
+                    await Networking.getOTP(value, phoneNumber);
+                print(returnedAnswer["success"] == "true");
 
-                  if (returnedAnswer["user_status"] == "new") {
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            CreateNamePage(returnedAnswer["token"]),
-                      ),
-                    );
-                  } else if (returnedAnswer["message"].toString() ==
-                      "Token returning!") {
-                    print("secuss");
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WelcomePage(),
-                      ),
-                    );
-                  }
-                },
-                child: Text("Check"))
+                if (returnedAnswer["user_status"] == "new") {
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CreateNamePage(returnedAnswer["token"]),
+                    ),
+                  );
+                } else if (returnedAnswer["message"].toString() ==
+                    "Token returning!") {
+                  print("secuss");
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WelcomePage(),
+                    ),
+                  );
+                }
+                else{
+                  
+                }
+              },
+            )
           ],
         ),
       ),

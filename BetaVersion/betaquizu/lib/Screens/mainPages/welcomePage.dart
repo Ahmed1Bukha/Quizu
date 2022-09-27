@@ -53,6 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: Center(
               child: Text(
                 "QuizU ⌚️",
@@ -65,7 +66,7 @@ class _WelcomePageState extends State<WelcomePage> {
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         child: Center(
@@ -76,21 +77,24 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 60,
                       ),
                       Text(
                         textAlign: TextAlign.center,
                         "Ready to test your knowledge and challenge others? ",
-                        style: textStyle(20, Colors.white),
+                        style: textStyle(25, Colors.white),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 50,
                       ),
                       SvgPicture.asset(
                         "Images/main.svg",
                         semanticsLabel: 'Acme Logo',
                         height: 200,
                         width: 100,
+                      ),
+                      SizedBox(
+                        height: 30,
                       ),
                       Button(
                         text: "Start quiz!",

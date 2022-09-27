@@ -87,6 +87,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Center(
             child: Text(
               "QuizU ⌚️",

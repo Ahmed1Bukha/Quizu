@@ -1,6 +1,8 @@
 import 'package:betaquizu/CustomWidget/animation.dart';
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:betaquizu/Screens/intillize/OTP_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../CustomWidget/button.dart';
@@ -31,6 +33,7 @@ class _loginPageNumberState extends State<loginPageNumber> {
     });
   }
 
+  String code = "+966";
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -46,32 +49,37 @@ class _loginPageNumberState extends State<loginPageNumber> {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    "Welcome!",
+                    style: textStyle(30, Colors.white),
+                  ),
                   SizedBox(
-                    child: TextFormField(
-                        controller: myController,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.phone),
-                            border: OutlineInputBorder(),
-                            labelText: 'Enther phone number:',
-                            hintText: '5xxxxxxxxx'),
-                        keyboardType: TextInputType.number),
+                    height: 30,
+                  ),
+                  InternationalPhoneNumberInput(
+                    initialValue: PhoneNumber(isoCode: "SA"),
+                    textFieldController: myController,
+                    maxLength: 11,
+                    onInputChanged: (value) {
+                      code = value.dialCode.toString();
+                    },
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Button(
                       text: "Next",
-                      function: () {
+                      function: () async {
                         print(myController.text);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                OTP(phoneNumber: myController.text),
+                                OTP(phoneNumber: code + "" + myController.text),
                           ),
                         );
                       },
-                      buttonColor: Colors.white)
+                      buttonColor: Colors.white),
                 ],
               ),
       ),

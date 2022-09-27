@@ -1,3 +1,5 @@
+import 'package:betaquizu/CustomWidget/button.dart';
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:flutter/material.dart';
 import '../../classes/Networking.dart';
 import '../mainPages/welcomePage.dart';
@@ -33,12 +35,16 @@ class _CreateNamePageState extends State<CreateNamePage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Center(child: Text("Creating name page")),
-        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Enter your name!",
+              style: textStyle(40, Colors.white),
+            ),
+            SizedBox(
+              height: 30,
+            ),
             SizedBox(
               child: TextFormField(
                 controller: myController,
@@ -49,8 +55,12 @@ class _CreateNamePageState extends State<CreateNamePage> {
                 ),
               ),
             ),
-            TextButton(
-                onPressed: () async {
+            SizedBox(
+              height: 30,
+            ),
+            Button(
+                text: "Submit",
+                function: () async {
                   dynamic responseBack = await Networking.newUserName(
                       myController.text, widget.token);
                   responseBack["token"] = widget.token;
@@ -61,7 +71,7 @@ class _CreateNamePageState extends State<CreateNamePage> {
                     ),
                   );
                 },
-                child: Text("Submit"))
+                buttonColor: Colors.white)
           ],
         ),
       ),
