@@ -1,3 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:betaquizu/CustomWidget/animation.dart';
+import 'package:betaquizu/CustomWidget/button.dart';
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:flutter/material.dart';
 import '../../classes/Networking.dart';
 import '../../classes/quizBrain.dart';
@@ -6,12 +10,8 @@ import 'dart:async';
 import 'finishPage.dart';
 
 class quizPage extends StatefulWidget {
-  quizPage(
-    this.infoUser,
-    this.questions,
-  );
-  final infoUser;
-  final questions;
+  quizPage();
+
   bool isSkipped = false;
 
   @override
@@ -21,35 +21,51 @@ class quizPage extends StatefulWidget {
 }
 
 class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
-  late AnimationController controller;
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
+    infoUserGetter();
+    timerStart();
+    // controller =
+    //     AnimationController(vsync: this, duration: Duration(seconds: 120));
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+  dynamic infoUserGetter() async {
+    infoUser = await Networking.userInfoGetter();
+    await questionGetter();
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  get countText {
-    Duration count = controller.duration! * controller.value;
-    print(count.inSeconds);
-    if (controller.value == 0) {
-      Future.delayed(Duration.zero, () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FinishPage(widget.infoUser, score),
-          ),
-        );
-      });
-    }
+  dynamic questionGetter() async {
+    questions = await Networking.quistionGetter();
+  }
 
-    return '${count.inSeconds}';
+  String secondsToMins(int seconds) {
+    int mins = seconds ~/ 60;
+    int sec = seconds - (mins * 60);
+    return '${mins > 0 ? '$mins:' : ''}${sec}';
+  }
+
+  void timerStart() {
+    timer = Timer.periodic(Duration(seconds: 1), (value) {
+      if (mounted) {
+        setState(() {
+          if (seconds > 0) {
+            seconds--;
+          } else {
+            timer.cancel();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FinishPage(infoUser, score),
+              ),
+            );
+          }
+        });
+      }
+    });
   }
 
   int questionNumber = 0;
@@ -61,110 +77,180 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
   }
 
   int score = 0;
+  var infoUser;
+  bool isLoading = true;
+  var questions;
+  late var timer;
+  int seconds = 120;
+  bool isPressed = false;
   Widget build(BuildContext context) {
-    controller.reverse(from: controller.value == 0 ? 1 : controller.value);
-    QuizBrain quizbrain = new QuizBrain(widget.questions);
+    QuizBrain quizbrain = new QuizBrain(questions);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Quiz page"),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(quizbrain.getMainQuestion(questionNumber)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: () {
-                  if (quizbrain.verifyAnswer("a", questionNumber)) {
-                    setState(() {
-                      incremeantNumbers();
-                    });
-                  } else {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => endPage(),
-                        ));
-                  }
-                },
-                child: Text(quizbrain.getAllOptions(questionNumber)["a"]),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: isLoading
+            ? LoadingAnimation()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 60,
+                  ),
+                  AutoSizeText(
+                    minFontSize: 45,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    quizbrain.getMainQuestion(questionNumber),
+                    style: textStyle(50, Colors.white),
+                  ),
+                  SizedBox(
+                    height: 150,
+                    child: Stack(children: [
+                      Center(
+                        child: Transform.scale(
+                          scale: 2.7,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            value: seconds / 120,
+                            color: seconds > 30 ? Colors.green : Colors.red,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          secondsToMins(seconds),
+                          style: textStyle(22, Colors.white),
+                        ),
+                      )
+                    ]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Button(
+                        fontSize: 20,
+                        text: quizbrain.getAllOptions(questionNumber)["a"],
+                        function: () {
+                          if (quizbrain.verifyAnswer("a", questionNumber)) {
+                            setState(() {
+                              incremeantNumbers();
+                            });
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => endPage(),
+                                ));
+                          }
+                        },
+                        buttonColor: Colors.white,
+                        height: 100,
+                        width: 150,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Button(
+                        fontSize: 20,
+                        text: quizbrain.getAllOptions(questionNumber)["b"],
+                        function: () {
+                          if (quizbrain.verifyAnswer("b", questionNumber)) {
+                            setState(() {
+                              incremeantNumbers();
+                            });
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => endPage(),
+                                ));
+                          }
+                        },
+                        buttonColor: Colors.white,
+                        height: 100,
+                        width: 150,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Button(
+                        fontSize: 20,
+                        text: quizbrain.getAllOptions(questionNumber)["c"],
+                        function: () {
+                          if (quizbrain.verifyAnswer("c", questionNumber)) {
+                            setState(() {
+                              incremeantNumbers();
+                            });
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => endPage(),
+                                ));
+                          }
+                        },
+                        buttonColor: Colors.white,
+                        height: 100,
+                        width: 150,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Button(
+                        fontSize: 20,
+                        text: quizbrain.getAllOptions(questionNumber)["d"],
+                        function: () {
+                          if (quizbrain.verifyAnswer("d", questionNumber)) {
+                            setState(() {
+                              incremeantNumbers();
+                            });
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => endPage(),
+                                ));
+                          }
+                        },
+                        buttonColor: Colors.white,
+                        height: 100,
+                        width: 150,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Button(
+                    buttonColor: Colors.red,
+                    backGroundColor: Colors.orange,
+                    text: "You have " + numberOfSkippes.toString() + " skip 🔥",
+                    function: isPressed
+                        ? () {}
+                        : () {
+                            if (numberOfSkippes == 1) {
+                              setState(() {
+                                numberOfSkippes--;
+                                questionNumber++;
+                                isPressed = true;
+                              });
+                            }
+                          },
+                  )
+                ],
               ),
-              TextButton(
-                onPressed: () {
-                  if (quizbrain.verifyAnswer("b", questionNumber)) {
-                    setState(() {
-                      incremeantNumbers();
-                    });
-                  } else {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => endPage(),
-                        ));
-                  }
-                },
-                child: Text(quizbrain.getAllOptions(questionNumber)["b"]),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: () {
-                  if (quizbrain.verifyAnswer("c", questionNumber)) {
-                    setState(() {
-                      incremeantNumbers();
-                    });
-                  } else {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => endPage(),
-                        ));
-                  }
-                },
-                child: Text(quizbrain.getAllOptions(questionNumber)["c"]),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (quizbrain.verifyAnswer("d", questionNumber)) {
-                    setState(() {
-                      incremeantNumbers();
-                    });
-                  } else {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => endPage(),
-                        ));
-                  }
-                },
-                child: Text(quizbrain.getAllOptions(questionNumber)["d"]),
-              ),
-              AnimatedBuilder(
-                  animation: controller,
-                  child: Text(countText),
-                  builder: (context, child) => Text(countText))
-            ],
-          ),
-          Visibility(
-            visible: numberOfSkippes == 1,
-            child: TextButton(
-                onPressed: () {
-                  if (numberOfSkippes == 1) {
-                    setState(() {
-                      numberOfSkippes--;
-                      questionNumber++;
-                    });
-                  }
-                },
-                child: Text("You have  " + numberOfSkippes.toString())),
-          )
-        ],
       ),
     );
   }

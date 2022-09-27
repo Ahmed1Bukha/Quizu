@@ -151,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         },
                         backGroundColor: Colors.red,
-                        color: Colors.white,
+                        buttonColor: Colors.white,
                       ),
                     ],
                   ),

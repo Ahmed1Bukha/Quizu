@@ -131,7 +131,7 @@ class Networking {
     final prefs = await SharedPreferences.getInstance();
     var scores = await prefs.getStringList('scores');
     if (scores == null) {
-      return ["Scores: "];
+      return [" "];
     }
     print(scores);
     return await scores;

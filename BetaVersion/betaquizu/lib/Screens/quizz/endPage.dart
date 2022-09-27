@@ -23,7 +23,7 @@ class endPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => quizPage(infoUser, questions),
+                    builder: (context) => quizPage(),
                   ),
                 );
               },

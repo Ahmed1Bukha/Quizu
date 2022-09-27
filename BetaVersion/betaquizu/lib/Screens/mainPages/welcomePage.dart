@@ -86,19 +86,21 @@ class _WelcomePageState extends State<WelcomePage> {
                         height: 20,
                       ),
                       Button(
-                          text: "Start quiz!",
-                          function: () async {
-                            dynamic questions =
-                                await Networking.quistionGetter();
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      quizPage(infoUser, questions),
-                                ));
-                          },
-                          color: Colors.white),
+                        text: "Start quiz!",
+                        function: () {
+                          dynamic questions =
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => quizPage(),
+                                  ));
+                        },
+                        buttonColor: Colors.white,
+                        Textcolor: Colors.white,
+                        fontSize: 30,
+                      ),
                       SizedBox(
                         height: 20,
                       ),
