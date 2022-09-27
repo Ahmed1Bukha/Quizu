@@ -63,7 +63,7 @@ class endPage extends StatelessWidget {
                 width: 100,
               ),
               SizedBox(
-                height: 20,
+                height: 80,
               ),
               Button(
                 text: "Retry quiz",

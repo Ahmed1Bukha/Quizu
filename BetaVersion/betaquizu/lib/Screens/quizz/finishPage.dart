@@ -1,14 +1,16 @@
+import 'package:betaquizu/CustomWidget/textCutom.dart';
 import 'package:betaquizu/Screens/intillize/loginInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:share_plus/share_plus.dart';
 import '../mainPages/welcomePage.dart';
 import '../../classes/Networking.dart';
 
 class FinishPage extends StatefulWidget {
-  FinishPage(this.infoUser, this.score);
+  FinishPage(this.score);
   int score;
-  final infoUser;
 
   @override
   State<FinishPage> createState() => _FinishPageState();
@@ -28,24 +30,91 @@ class _FinishPageState extends State<FinishPage> {
 
   Networking networking = new Networking();
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Finish")),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Text("Your score is: " + widget.score.toString())),
-          Center(
-              child: TextButton(
-                  onPressed: () async {
-                    final infoUser = await Networking.userInfoGetter();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WelcomePage(),
-                        ));
-                  },
-                  child: Text("Return to main page")))
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("Images/Untitled-1.png"),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Transform.scale(
+                    scale: 2.5,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WelcomePage(),
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.close)),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
+              Text(
+                "TIMES UP!",
+                style: textStyle(60, Colors.white),
+              ),
+              SizedBox(
+                height: 80,
+              ),
+              SvgPicture.asset(
+                "Images/win.svg",
+                semanticsLabel: 'Acme Logo',
+                height: 250,
+                width: 100,
+              ),
+              Text(
+                "You have completed",
+                style: textStyle(30, Colors.white),
+              ),
+              Text(
+                widget.score.toString(),
+                style: textStyle(70, Color.fromARGB(255, 255, 255, 255)),
+              ),
+              Text(
+                "Correct answer!",
+                style: textStyle(30, Colors.white),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Share.share(
+                      "I got ${widget.score} in QuizU! Try to beat that!",
+                      subject: "test");
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Transform.scale(scale: 3, child: Icon(Icons.share)),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      "Share",
+                      style: textStyle(30, Colors.white),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

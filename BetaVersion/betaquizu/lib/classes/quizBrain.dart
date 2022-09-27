@@ -4,7 +4,11 @@ class QuizBrain {
   final listOfQuestions;
 
   String getMainQuestion(int indexNumber) {
-    return listOfQuestions[indexNumber]["Question"];
+    if (indexNumber >= 30) {
+      return " ";
+    } else {
+      return listOfQuestions[indexNumber]["Question"];
+    }
   }
 
   Map getAllOptions(int indexNumber) {
@@ -24,5 +28,9 @@ class QuizBrain {
     } else {
       return false;
     }
+  }
+
+  int returnLength() {
+    return listOfQuestions.length;
   }
 }

@@ -45,7 +45,7 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
   String secondsToMins(int seconds) {
     int mins = seconds ~/ 60;
     int sec = seconds - (mins * 60);
-    return '${mins > 0 ? '$mins:' : ''}${sec}';
+    return '${mins > 0 ? '$mins:' : ''}${sec < 10 && mins > 0 ? '0${sec}' : sec}';
   }
 
   void timerStart() {
@@ -56,12 +56,7 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
             seconds--;
           } else {
             timer.cancel();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FinishPage(infoUser, score),
-              ),
-            );
+            maxQuestions();
           }
         });
       }
@@ -74,6 +69,14 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
   void incremeantNumbers() {
     questionNumber++;
     score++;
+  }
+
+  void maxQuestions() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FinishPage(score),
+        ));
   }
 
   int score = 0;
@@ -140,7 +143,12 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                         function: () {
                           if (quizbrain.verifyAnswer("a", questionNumber)) {
                             setState(() {
-                              incremeantNumbers();
+                              if (1 + questionNumber >= 30) {
+                                score++;
+                                maxQuestions();
+                              } else {
+                                incremeantNumbers();
+                              }
                             });
                           } else {
                             Navigator.pushReplacement(
@@ -163,7 +171,12 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                         function: () {
                           if (quizbrain.verifyAnswer("b", questionNumber)) {
                             setState(() {
-                              incremeantNumbers();
+                              if (1 + questionNumber >= 30) {
+                                score++;
+                                maxQuestions();
+                              } else {
+                                incremeantNumbers();
+                              }
                             });
                           } else {
                             Navigator.pushReplacement(
@@ -191,7 +204,13 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                         function: () {
                           if (quizbrain.verifyAnswer("c", questionNumber)) {
                             setState(() {
-                              incremeantNumbers();
+                              print(quizbrain.returnLength());
+                              if (1 + questionNumber >= 30) {
+                                score++;
+                                maxQuestions();
+                              } else {
+                                incremeantNumbers();
+                              }
                             });
                           } else {
                             Navigator.pushReplacement(
@@ -214,7 +233,12 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                         function: () {
                           if (quizbrain.verifyAnswer("d", questionNumber)) {
                             setState(() {
-                              incremeantNumbers();
+                              if (1 + questionNumber >= 30) {
+                                score++;
+                                maxQuestions();
+                              } else {
+                                incremeantNumbers();
+                              }
                             });
                           } else {
                             Navigator.pushReplacement(
@@ -244,6 +268,10 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                                 isPressed = true;
                                 numberOfSkippes--;
                                 questionNumber++;
+                                if (questionNumber >=
+                                    quizbrain.returnLength()) {
+                                  maxQuestions();
+                                }
                               });
                             }
                           }

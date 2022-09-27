@@ -103,6 +103,50 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () => showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: Text("LogOut"),
+                                      content: Text(
+                                          "Are you sure that you want to logout?"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  loginPageNumber(),
+                                            ),
+                                          ),
+                                          child: const Text('Yes'),
+                                        ),
+                                      ],
+                                    )),
+                            child: Transform.scale(
+                              scale: 2.2,
+                              child: Container(
+                                child: Icon(Icons.logout),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -113,10 +157,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: textStyle(60, Colors.white),
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Icon(Icons.logout),
-                          )
                         ],
                       ),
                       Row(
