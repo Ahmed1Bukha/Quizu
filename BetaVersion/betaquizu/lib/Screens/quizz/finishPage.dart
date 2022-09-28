@@ -34,7 +34,7 @@ class _FinishPageState extends State<FinishPage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -43,6 +43,9 @@ class _FinishPageState extends State<FinishPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -72,7 +75,7 @@ class _FinishPageState extends State<FinishPage> {
                 height: 80,
               ),
               SvgPicture.asset(
-                "Images/win.svg",
+                "assets/win.svg",
                 semanticsLabel: 'Acme Logo',
                 height: 250,
                 width: 100,

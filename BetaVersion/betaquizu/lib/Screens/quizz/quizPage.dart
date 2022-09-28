@@ -93,7 +93,7 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -107,7 +107,7 @@ class _quizPageState extends State<quizPage> with TickerProviderStateMixin {
                     height: 60,
                   ),
                   AutoSizeText(
-                    minFontSize: 45,
+                    maxFontSize: 45,
                     maxLines: 2,
                     textAlign: TextAlign.center,
                     quizbrain.getMainQuestion(questionNumber),

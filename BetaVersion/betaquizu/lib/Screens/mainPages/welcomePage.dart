@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:betaquizu/CustomWidget/animation.dart';
 import 'package:betaquizu/CustomWidget/button.dart';
 import 'package:betaquizu/CustomWidget/textCutom.dart';
@@ -47,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -63,14 +64,17 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           body: isLoading
               ? LoadingAnimation()
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
+              : SafeArea(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         child: Center(
-                          child: Text(
+                          child: AutoSizeText(
+                            wrapWords: true,
+                            maxLines: 1,
+                            maxFontSize: 50,
+                            textAlign: TextAlign.center,
                             "Welcome " + (infoUser["name"] ?? "Guest lmfao"),
                             style: textStyle(50, Colors.white),
                           ),
@@ -88,7 +92,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         height: 50,
                       ),
                       SvgPicture.asset(
-                        "Images/main.svg",
+                        "assets/main.svg",
                         semanticsLabel: 'Acme Logo',
                         height: 200,
                         width: 100,

@@ -21,7 +21,7 @@ class OTP extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -64,9 +64,28 @@ class OTP extends StatelessWidget {
                       builder: (context) => WelcomePage(),
                     ),
                   );
-                }
-                else{
-                  
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: Text(
+                              "Error name",
+                              style: textStyle(30, Colors.white),
+                            ),
+                            content: Text(
+                              "Your OTP is wrong. Please make sure that you entered the right one.",
+                              style: textStyle(20, Colors.white),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: Text(
+                                    "Ok",
+                                    style: textStyle(19, Colors.blue),
+                                  ))
+                            ],
+                          ));
                 }
               },
             )

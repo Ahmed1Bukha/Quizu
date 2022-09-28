@@ -30,7 +30,7 @@ class _CreateNamePageState extends State<CreateNamePage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -47,6 +47,7 @@ class _CreateNamePageState extends State<CreateNamePage> {
             ),
             SizedBox(
               child: TextFormField(
+                maxLength: 20,
                 controller: myController,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.face),
@@ -61,15 +62,40 @@ class _CreateNamePageState extends State<CreateNamePage> {
             Button(
                 text: "Submit",
                 function: () async {
-                  dynamic responseBack = await Networking.newUserName(
-                      myController.text, widget.token);
-                  responseBack["token"] = widget.token;
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WelcomePage(),
-                    ),
-                  );
+                  if (myController.text.isEmpty ||
+                      myController.text.contains(" ")) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text(
+                                "Error name",
+                                style: textStyle(30, Colors.white),
+                              ),
+                              content: Text(
+                                "Please enter your name without a space or empty in the given box.",
+                                style: textStyle(20, Colors.white),
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: Text(
+                                      "Ok",
+                                      style: textStyle(19, Colors.blue),
+                                    ))
+                              ],
+                            ));
+                  } else {
+                    dynamic responseBack = await Networking.newUserName(
+                        myController.text, widget.token);
+                    responseBack["token"] = widget.token;
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomePage(),
+                      ),
+                    );
+                  }
                 },
                 buttonColor: Colors.white)
           ],

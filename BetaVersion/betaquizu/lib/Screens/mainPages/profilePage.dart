@@ -17,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  dynamic infoUser;
+  dynamic infoUser = '';
 
   List<String> scores = [''];
   List<String> dates = [''];
@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
               flex: 8,
               child: Text(
                 dates[i],
-                style: textStyle(20, Colors.white),
+                style: textStyle(18, Colors.white),
               ),
             ),
             SizedBox(
@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
               flex: 2,
               child: Text(
                 scores[i],
-                style: textStyle(20, Colors.white),
+                style: textStyle(18, Colors.white),
               ),
             ),
           ],
@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -191,19 +191,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ...returnNamesScores(dates, scores),
                       SizedBox(
                         height: 100,
-                      ),
-                      Button(
-                        text: "SignOut",
-                        function: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => loginPageNumber(),
-                            ),
-                          );
-                        },
-                        backGroundColor: Colors.red,
-                        buttonColor: Colors.white,
                       ),
                     ],
                   ),

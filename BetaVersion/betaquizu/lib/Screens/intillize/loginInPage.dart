@@ -34,12 +34,13 @@ class _loginPageNumberState extends State<loginPageNumber> {
   }
 
   String code = "+966";
+  bool isValid = false;
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -57,6 +58,9 @@ class _loginPageNumberState extends State<loginPageNumber> {
                     height: 30,
                   ),
                   InternationalPhoneNumberInput(
+                    hintText: "5xxxxxxxxx",
+                    onInputValidated: (value) => {isValid = value},
+                    autoValidateMode: AutovalidateMode.onUserInteraction,
                     initialValue: PhoneNumber(isoCode: "SA"),
                     textFieldController: myController,
                     maxLength: 11,
@@ -70,14 +74,23 @@ class _loginPageNumberState extends State<loginPageNumber> {
                   Button(
                       text: "Next",
                       function: () async {
-                        print(myController.text);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                OTP(phoneNumber: code + "" + myController.text),
-                          ),
-                        );
+                        String phoneNumber = myController.text[0] == "0"
+                            ? myController.text.substring(1)
+                            : myController.text;
+                        if (!isValid) {
+                        } else {
+                          print(myController.text);
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OTP(
+                                  phoneNumber: code +
+                                      "" +
+                                      phoneNumber.replaceAll(" ", '')),
+                            ),
+                          );
+                        }
                       },
                       buttonColor: Colors.white),
                 ],

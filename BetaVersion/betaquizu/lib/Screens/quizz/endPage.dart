@@ -15,7 +15,7 @@ class endPage extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("Images/Untitled-1.png"),
+          image: AssetImage("assets/Untitled-1.png"),
         ),
       ),
       child: Scaffold(
@@ -57,7 +57,7 @@ class endPage extends StatelessWidget {
                 style: textStyle(40, Colors.white),
               ),
               SvgPicture.asset(
-                "Images/lmfao.svg",
+                "assets/lmfao.svg",
                 semanticsLabel: 'Acme Logo',
                 height: 300,
                 width: 100,
