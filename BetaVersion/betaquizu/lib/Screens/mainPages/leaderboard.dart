@@ -25,6 +25,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
   }
 
   dynamic getLeaderBoard() async {
+    names = [];
+    scores = [];
     final answer = await Networking.getLeaderBoard();
     for (int i = 0; i < 10; i++) {
       names.add(answer[i]["name"].toString());
@@ -97,58 +99,60 @@ class _LeaderBoardState extends State<LeaderBoard> {
         ),
         body: isLoading
             ? LoadingAnimation()
-            : Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "LeaderBoard",
-                      style: textStyle(
-                        60,
-                        Colors.white,
+            : RefreshIndicator(
+                onRefresh: () async => getLeaderBoard(),
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "LeaderBoard",
+                        style: textStyle(
+                          60,
+                          Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Text(
-                              "Names:",
-                              style: textStyle(30, Colors.white),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                            height: 10,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              "Scores:",
-                              style: textStyle(30, Colors.white),
-                            ),
-                          )
-                        ],
+                      SizedBox(
+                        height: 60,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ...returnNamesScores(names, scores)
-                  ],
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Text(
+                                "Names:",
+                                style: textStyle(30, Colors.white),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                              height: 10,
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                "Scores:",
+                                style: textStyle(30, Colors.white),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ...returnNamesScores(names, scores)
+                    ],
+                  ),
                 ),
               ),
         bottomNavigationBar: bottomBarReturn(indexPage, context),
